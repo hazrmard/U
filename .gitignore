@@ -1,0 +1,8 @@
+# Executable Files
+*.exe
+
+# object files
+*.o
+
+# Testing directory
+testing/
