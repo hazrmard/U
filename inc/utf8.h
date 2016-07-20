@@ -1,5 +1,5 @@
-# ifndef UTF_8_H
-# define UTF_8_H
+#ifndef UTF_8_H
+#define UTF_8_H
 
 #include <stdint.h>
 #include <stdarg.h>
@@ -79,4 +79,4 @@ int u8_is_locale_utf8(char *locale);
 int u8_vprintf(char *fmt, va_list ap);
 int u8_printf(char *fmt, ...);
 
-# endif
+#endif

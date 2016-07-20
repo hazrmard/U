@@ -13,14 +13,13 @@ long int file_size(FILE *f) {
 }
 
 // reallocate utf8 buffer to only contain non-NULL
-UBuffer reallocate(u_int32_t* buff) {
-    UBuffer b = {.buff = buff};
+void reallocate(UBuffer* b) {
     long int i=0;
-    while (*buff != 0) {
-        buff++;
+    u_int32_t* original = b->buff;
+    while (*b->buff != 0) {
+        b->buff++;
         i++;
     }
-    b.sz = i;
-    b.buff = realloc(b.buff, sizeof(*b.buff)*i);
-    return b;
+    b->sz = i;
+    b->buff = realloc(original, sizeof(*original)*i);
 }
