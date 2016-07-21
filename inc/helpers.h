@@ -5,14 +5,15 @@
 #define HELPERS_H
 
 #include "utf8.h"
+#include <stdio.h>
 
 typedef struct {
-    long int sz;
+    unsigned long sz;
     u_int32_t* buff;
 } UBuffer;
 
 // returns file size in bytes
-long int file_size(FILE *f);
+unsigned long file_size(FILE *f);
 
 // reallocate buffer to only contain non-NULL
 void reallocate(UBuffer* b);

@@ -4,7 +4,7 @@
 #include "helpers.h"
 
 // read ray bytes from file and convert them to 4-byte wide integers
-int read_utf8_file(char* fname, UBuffer* b);
+unsigned long read_utf8_file(char* fname, UBuffer* b);
 
 
 #endif
