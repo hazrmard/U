@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "utf8.h"
 #include "helpers.h"
 
@@ -38,4 +39,24 @@ int contains(UBuffer* b, u_int32_t c, unsigned long start) {
         if (c==b->buff[i]) return 1;
     }
     return 0;
+}
+
+// converts stack memory into heap for UBuffer instance
+int convert_stack_to_heap(UBuffer* b) {
+    u_int32_t* buff = malloc(sizeof(u_int32_t)*(b->sz+1));
+    if (!buff) return 0;    // memory allocation error
+    b->buff = memcpy(buff, b->buff, sizeof(u_int32_t)*(b->sz+1));
+    if (!b->buff) return 0;
+    return 1;
+}
+
+// check if two UBuffer instances are equal
+int is_equal(UBuffer* a, UBuffer* b) {
+    if (a->sz!=b->sz) return 0;
+    unsigned long i;
+    while (i<a->sz) {
+        if (a->buff[i]!=b->buff[i]) return 0;
+        i++;
+    }
+    return 1;
 }
