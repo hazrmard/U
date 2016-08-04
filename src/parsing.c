@@ -7,6 +7,11 @@
 UBuffer WHITESPACE = {.buff=(u_int32_t[26]){9,10,11,12,13,32,133,160,5760,8192,8193,8194,
                 8195,8196,8197,8198,8199,8200,8201,8202,8232,8233,8239,8287,12288,0},
                 .sz=25};
+//convert_stack_to_heap(WHITESPACE);
+UBuffer COMMENT_CHAR = {.buff=(u_int32_t[2]){'#',0}, .sz=1};
+//convert_stack_to_heap(&COMMENT_CHAR);
+UBuffer NEWLINE_CHAR = {.buff=(u_int32_t[2]){'\n',0}, .sz=1};
+//convert_stack_to_heap(&NEWLINE_CHAR);
 
 // return the position in the buffer b after matching with target, 0 if no match
 unsigned long skip_until(UBuffer* b, unsigned long curr_pos, UBuffer* target) {
@@ -60,4 +65,21 @@ unsigned long skip_all(UBuffer* b, unsigned long curr_pos, UBuffer* target) {
         curr_pos++;
     }
     return curr_pos;
+}
+
+// determine number of non comment lines
+unsigned long count_lines(UBuffer* b) {
+    unsigned long i=0;
+    unsigned long lines = 0;
+    while (i<b->sz) {
+        if (contains(&WHITESPACE, b->buff[i], 0)) {
+            i = skip_all(b, i, &WHITESPACE);
+        } else if (b->buff[i]==COMMENT_CHAR.buff[0]) {
+            i = skip_until(b, i, &NEWLINE_CHAR);
+        } else {
+            lines++;
+            i = skip_until(b, i, &NEWLINE_CHAR);
+        }
+    }
+    return lines;
 }

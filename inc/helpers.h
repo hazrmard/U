@@ -18,7 +18,7 @@ typedef struct {
 unsigned long file_size(FILE *f);
 
 // reallocate buffer to only contain non-NULL
-void reallocate(UBuffer* b);
+int reallocate(UBuffer* b);
 
 // convert string to unicode codepoints and return pointer to UBuffer object
 void to_unicode(char* src, unsigned long sz, UBuffer* dest);

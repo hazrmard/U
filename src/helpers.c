@@ -14,7 +14,7 @@ unsigned long file_size(FILE *f) {
 }
 
 // reallocate utf8 buffer to only contain non-NULL
-void reallocate(UBuffer* b) {
+int reallocate(UBuffer* b) {
     unsigned long i=0;
     u_int32_t* original = b->buff;
     while (*b->buff != 0) {
@@ -23,6 +23,8 @@ void reallocate(UBuffer* b) {
     }
     b->sz = i;
     b->buff = realloc(original, sizeof(*original)*i+1); //+1 for ending \0
+    if (b->buff) return 1;
+    return 0;
 }
 
 // convert string to unicode codepoints and return pointer to UBuffer object
@@ -53,7 +55,7 @@ int convert_stack_to_heap(UBuffer* b) {
 // check if two UBuffer instances are equal
 int is_equal(UBuffer* a, UBuffer* b) {
     if (a->sz!=b->sz) return 0;
-    unsigned long i;
+    unsigned long i=0;
     while (i<a->sz) {
         if (a->buff[i]!=b->buff[i]) return 0;
         i++;
